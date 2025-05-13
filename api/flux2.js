@@ -10,7 +10,7 @@ const meta = {
   author: "alit",
   method: "get",
   category: "image",
-  path: "/flux?prompt="
+  path: "/fluxv2?prompt="
 };
 
 const fluxApiUrl = 'https://flux-schnell.hello-kaiiddo.workers.dev/img';
