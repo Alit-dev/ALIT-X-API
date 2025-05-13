@@ -10,7 +10,7 @@ const meta = {
   author: "alit",
   method: "get",
   category: "image",
-  path: "/flux?prompt="
+  path: "/fluxv1?prompt="
 };
 
 // 🔁 All API keys (rotate in loop)
