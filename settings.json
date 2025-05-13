@@ -1,0 +1,39 @@
+{
+  "name": "ALIT API",
+  "version": "ALIT UI",
+  "description": "Simple and Easy-to-Use API Documentation by Alamin",
+  "header": {
+    "status": "Online!",
+    "imageSrc": [
+      "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnZuMGF4aWNucGxpZHoxY2FidmFqdXVhbTUwZ3dveHlhZDM4amNuNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5iYAMIM8H8pWjBoPit/giphy.gif"
+    ],
+    "imageSize": {
+      "mobile": "80%",
+      "tablet": "40%",
+      "desktop": "40%"
+    }
+  },
+  "apiSettings": {
+    "operator": "Alit"
+  },
+  "links": [
+    {
+      "name": "Source Code",
+      "url": "https://fuckyou.tokyo/"
+    },
+    {
+      "name": "Contact Me",
+      "url": "https://facebook.com/alaminbhau"
+    }
+  ],
+  "notifications": [
+    {
+      "title": "Welcome to API Dashboard",
+      "message": "Explore our APIs and integrate them into your projects."
+    },
+    {
+      "title": "New Feature",
+      "message": "We've added support for WebSocket APIs. Check them out!"
+    }
+  ]
+}
