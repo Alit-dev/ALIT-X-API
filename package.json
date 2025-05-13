@@ -10,6 +10,8 @@
   "author": "ALIT",
   "license": "MIT",
   "dependencies": {
+    "fuzzysort": "^3.1.0",
+    "mongoose": "^8.14.3",
     "@google/genai": "^0.13.0",
     "@vreden/youtube_scraper": "^1.2.7",
     "axios": "^1.6.8",
