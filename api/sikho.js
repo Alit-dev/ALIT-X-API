@@ -22,7 +22,11 @@ async function connectMongo() {
   await client.connect();
   db = client.db(dbName);
   collection = db.collection(collectionName);
+  await refreshLocalData(); // Load initial data
+}
 
+async function refreshLocalData() {
+  localData = {}; // Clear old cache
   const allData = await collection.find({}).toArray();
   allData.forEach(doc => {
     if (!localData[doc.teacher]) localData[doc.teacher] = {};
@@ -49,6 +53,7 @@ async function updateMongo() {
 
 async function onStart({ req, res }) {
   if (!collection) await connectMongo();
+  await refreshLocalData(); // Always get latest data
 
   const teacherName = req.query.teacher;
   const questionParam = req.query.question;
