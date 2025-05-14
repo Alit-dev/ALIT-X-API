@@ -1,4 +1,3 @@
-
 const { MongoClient } = require("mongodb");
 
 const meta = {
@@ -23,6 +22,7 @@ async function connectMongo() {
   await client.connect();
   db = client.db(dbName);
   collection = db.collection(collectionName);
+  await refreshLocalData();
 }
 
 async function refreshLocalData() {
@@ -52,7 +52,7 @@ async function onStart({ req, res }) {
   const answerGroups = answerParam.split("-").map(ans => ans.split(",").map(a => a.trim()));
 
   if (questions.length !== answerGroups.length) {
-    return res.status(400).json({ error: "Number of questions and answer groups must match" });
+    return res.status(400).json({ error: "Question & answer count mismatch" });
   }
 
   if (!localData[teacherName]) localData[teacherName] = {};
@@ -70,7 +70,6 @@ async function onStart({ req, res }) {
       const existingAnswers = localData[teacherName][q];
       const newAnswers = answers.filter(ans => !existingAnswers.includes(ans));
       if (newAnswers.length > 0) {
-        localData[teacherName][q].push(...newAnswers);
         await collection.updateOne(
           { teacher: teacherName, question: q },
           { $addToSet: { answers: { $each: newAnswers } } }
@@ -79,6 +78,8 @@ async function onStart({ req, res }) {
       }
     }
   }
+
+  await refreshLocalData();
 
   return res.json({
     teacher: teacherName,
