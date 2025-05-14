@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 const meta = {
-  name: "pinterest-image-scraper",
+  name: "pinterest-search",
   version: "1.0.0",
   description: "Scrapes high-quality images from Pinterest based on a search query",
   author: "Alamin,
