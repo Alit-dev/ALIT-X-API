@@ -1,9 +1,10 @@
+
 const { MongoClient } = require("mongodb");
 
 const meta = {
   name: "sikho",
   version: "1.0.2",
-  description: "Teach the bot multiple question-answer pairs for a specific teacher using '-' as separator , remove .",
+  description: "Teach the bot multiple question-answer pairs for a specific teacher using '-' as separator.",
   author: "Alamin",
   method: "get",
   category: "sara",
@@ -22,11 +23,10 @@ async function connectMongo() {
   await client.connect();
   db = client.db(dbName);
   collection = db.collection(collectionName);
-  await refreshLocalData(); // Load initial data
 }
 
 async function refreshLocalData() {
-  localData = {}; // Clear old cache
+  localData = {};
   const allData = await collection.find({}).toArray();
   allData.forEach(doc => {
     if (!localData[doc.teacher]) localData[doc.teacher] = {};
@@ -34,26 +34,9 @@ async function refreshLocalData() {
   });
 }
 
-async function updateMongo() {
-  await collection.deleteMany({});
-  const newDocs = [];
-
-  for (const teacher in localData) {
-    for (const question in localData[teacher]) {
-      newDocs.push({
-        teacher,
-        question,
-        answers: localData[teacher][question]
-      });
-    }
-  }
-
-  if (newDocs.length) await collection.insertMany(newDocs);
-}
-
 async function onStart({ req, res }) {
   if (!collection) await connectMongo();
-  await refreshLocalData(); // Always get latest data
+  await refreshLocalData();
 
   const teacherName = req.query.teacher;
   const questionParam = req.query.question;
@@ -75,21 +58,27 @@ async function onStart({ req, res }) {
   if (!localData[teacherName]) localData[teacherName] = {};
   const newAnswersForFirst = [];
 
-  questions.forEach((q, i) => {
-    const cleanQuestion = q.replace(/[^\w\s?.!]/g, "");
+  for (let i = 0; i < questions.length; i++) {
+    const q = questions[i].replace(/[^\w\s?.!]/g, "");
     const answers = answerGroups[i];
 
-    if (!localData[teacherName][cleanQuestion]) localData[teacherName][cleanQuestion] = [];
-
-    answers.forEach(ans => {
-      if (!localData[teacherName][cleanQuestion].includes(ans)) {
-        localData[teacherName][cleanQuestion].push(ans);
-        if (i === 0) newAnswersForFirst.push(ans);
+    if (!localData[teacherName][q]) {
+      localData[teacherName][q] = [...answers];
+      await collection.insertOne({ teacher: teacherName, question: q, answers });
+      if (i === 0) newAnswersForFirst.push(...answers);
+    } else {
+      const existingAnswers = localData[teacherName][q];
+      const newAnswers = answers.filter(ans => !existingAnswers.includes(ans));
+      if (newAnswers.length > 0) {
+        localData[teacherName][q].push(...newAnswers);
+        await collection.updateOne(
+          { teacher: teacherName, question: q },
+          { $addToSet: { answers: { $each: newAnswers } } }
+        );
+        if (i === 0) newAnswersForFirst.push(...newAnswers);
       }
-    });
-  });
-
-  await updateMongo();
+    }
+  }
 
   return res.json({
     teacher: teacherName,
