@@ -34,6 +34,10 @@
     {
       "title": "New Feature",
       "message": "We've added support for WebSocket APIs. Check them out!"
+    },
+    {
+      "title": "New terabox downloader",
+      "message": "We've added file link to download link feature. Check them out!"
     }
   ]
 }
