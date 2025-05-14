@@ -10,6 +10,7 @@
   "author": "ALIT",
   "license": "MIT",
   "dependencies": {
+    "mongodb": "^6.16.0",
     "fuzzysort": "^3.1.0",
     "mongoose": "^8.14.3",
     "@google/genai": "^0.13.0",
