@@ -13,10 +13,11 @@ const meta = {
 
 function isHighQuality(url) {
   return (
-    url.startsWith('https://i.pinimg.com/') &&
+    /^https:\/\/i\.pinimg\.com\/[0-9x]+\/.+\.(jpg|jpeg|png|webp)$/.test(url) &&
     !url.includes('/60x60') &&
     !url.includes('/75x75') &&
-    !url.includes('/236x')
+    !url.includes('/236x') &&
+    !url.includes('/474x')
   );
 }
 
