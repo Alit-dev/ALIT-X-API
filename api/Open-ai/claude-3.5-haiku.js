@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const meta = {
-  name: "claude-3.5-haiku",
+  name: "claude-3.5(haiku)",
   version: "1.0.0",
   description: "Uses model: provider-4/claude-3.5-haiku. This API specializes in generating short, poetic text in the form of haikus.",
   author: "Alamin",
@@ -23,7 +23,7 @@ async function onStart({ req, res }) {
     const response = await axios.post(
       `${BASE_URL}/chat/completions`,
       {
-        model: "provider-4/claude-3.5-haiku",
+        model: "provider-2/claude-3.5-haiku",
         messages: [
           { role: "system", content: "You are a haiku generator." },
           { role: "user", content: text }
