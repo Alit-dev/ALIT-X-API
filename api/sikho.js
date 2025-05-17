@@ -2,12 +2,12 @@ const { MongoClient } = require("mongodb");
 
 const meta = {
   name: "sikho",
-  version: "1.0.2",
-  description: "Teach the bot multiple question-answer pairs for a specific teacher using '-' as separator.",
+  version: "1.0.5",
+  description: "Teach the bot and return only newly taught data",
   author: "Alamin",
   method: "get",
   category: "sara",
-  path: "/sikho?question=.&answer=.&teacher=."
+  path: "/sikho?question=&answer=&teacher="
 };
 
 const mongoURL = "mongodb+srv://ikalaminss:uchR2FJzOGBS1flG@cluster0.lugxuhr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
@@ -56,7 +56,9 @@ async function onStart({ req, res }) {
   }
 
   if (!localData[teacherName]) localData[teacherName] = {};
-  const newAnswersForFirst = [];
+
+  let newlyLearnedQuestions = [];
+  let newlyLearnedAnswers = [];
 
   for (let i = 0; i < questions.length; i++) {
     const q = questions[i].replace(/[^\w\s?.!]/g, "");
@@ -65,7 +67,8 @@ async function onStart({ req, res }) {
     if (!localData[teacherName][q]) {
       localData[teacherName][q] = [...answers];
       await collection.insertOne({ teacher: teacherName, question: q, answers });
-      if (i === 0) newAnswersForFirst.push(...answers);
+      newlyLearnedQuestions.push(q);
+      newlyLearnedAnswers.push(answers);
     } else {
       const existingAnswers = localData[teacherName][q];
       const newAnswers = answers.filter(ans => !existingAnswers.includes(ans));
@@ -74,20 +77,26 @@ async function onStart({ req, res }) {
           { teacher: teacherName, question: q },
           { $addToSet: { answers: { $each: newAnswers } } }
         );
-        if (i === 0) newAnswersForFirst.push(...newAnswers);
+        localData[teacherName][q] = [...existingAnswers, ...newAnswers];
+        newlyLearnedQuestions.push(q);
+        newlyLearnedAnswers.push(newAnswers);
       }
     }
   }
 
-  await refreshLocalData();
+  const flatAnswers = newlyLearnedAnswers.flat();
 
-  return res.json({
-    teacher: teacherName,
-    learnedQuestions: questions.length,
-    firstQuestion: questions[0],
-    newAnswers: newAnswersForFirst,
-    allAnswers: localData[teacherName][questions[0]]
-  });
+  const response = {
+  operator: "Alit",
+  teacher: teacherName,
+  learned: newlyLearnedQuestions.length,
+  learnedQuestions: Object.keys(localData[teacherName]).length,
+  learnedAnser: Object.values(localData[teacherName]).flat().length,
+  Question: newlyLearnedQuestions,
+  Answers: newlyLearnedAnswers,
+  allAnswers: flatAnswers
+};
+  return res.json(response);
 }
 
 module.exports = { meta, onStart };
