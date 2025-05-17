@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const meta = {
-  name: "gemini-2.5-flash",
+  name: "gemini-2.0-flash",
   version: "1.0.0",
   description: "Uses model: provider-4/gemini-2.5-flash-preview-04-17. This API provides advanced language capabilities for cutting-edge tasks, with a focus on fast and efficient responses in preview mode.",
   author: "Alamin",
@@ -10,7 +10,7 @@ const meta = {
   path: "/gemini-2.5-flash-preview-04-17?text="
 };
 
-const API_KEY = "ddc-temp-free-e3b73cd814cc4f3ea79b5d4437912663";
+const API_KEY = "ddc-free-8e5171eeac9148ed89969cc31002d99d";
 const BASE_URL = "https://api.devsdocode.com/v1";
 
 async function onStart({ req, res }) {
@@ -23,7 +23,7 @@ async function onStart({ req, res }) {
     const response = await axios.post(
       `${BASE_URL}/chat/completions`,
       {
-        model: "provider-4/gemini-2.5-flash-preview-04-17",
+        model: provider-2/gemini-2.0-flash-thinking-exp",
         messages: [
           { role: "system", content: "You are a cutting-edge AI model with fast response time in preview mode." },
           { role: "user", content: text }
