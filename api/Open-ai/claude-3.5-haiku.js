@@ -10,7 +10,7 @@ const meta = {
   path: "/claude-3.5-haiku?text="
 };
 
-const API_KEY = "ddc-temp-free-e3b73cd814cc4f3ea79b5d4437912663";
+const API_KEY = "ddc-free-8e5171eeac9148ed89969cc31002d99d";
 const BASE_URL = "https://api.devsdocode.com/v1";
 
 async function onStart({ req, res }) {
