@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const meta = {
-  name: "Gpt-4o-latest",
+  name: "Gpt-4o",
   version: "1.0.0",
   description: "Uses model: provider-4/chatgpt-4o-latest. This API enables lightweight and fast AI chat completion, suitable for Q&A, small text generation, and quick responses.",
   author: "Alamin",
@@ -10,7 +10,7 @@ const meta = {
   path: "/chatgpt-4o-latest?text="
 };
 
-const API_KEY = "ddc-temp-free-e3b73cd814cc4f3ea79b5d4437912663";
+const API_KEY = "ddc-free-8e5171eeac9148ed89969cc31002d99d";
 const BASE_URL = "https://api.devsdocode.com/v1";
 
 async function onStart({ req, res }) {
@@ -23,7 +23,7 @@ async function onStart({ req, res }) {
     const response = await axios.post(
       `${BASE_URL}/chat/completions`,
       {
-        model: "provider-4/chatgpt-4o-latest",
+        model: "provider-1/gpt-4o",
         messages: [
           { role: "system", content: "You are a helpful assistant." },
           { role: "user", content: text }
