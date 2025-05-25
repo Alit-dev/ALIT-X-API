@@ -9,19 +9,17 @@ const pool = new Pool({
 
 const localFilePath = path.join(__dirname, "..", "short-links.json");
 
-// Ensure table exists
 async function initTable() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS short_urls (
       id SERIAL PRIMARY KEY,
-      shortcode VARCHAR(10) UNIQUE NOT NULL,
+      shortcode VARCHAR(100) UNIQUE NOT NULL,
       original_url TEXT NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `);
 }
 
-// Save to local JSON
 function saveToLocal(shortcode, original_url) {
   let data = {};
   if (fs.existsSync(localFilePath)) {
@@ -33,21 +31,28 @@ function saveToLocal(shortcode, original_url) {
 
 const meta = {
   name: "short",
-  version: "1.0.0",
-  description: "Shorten a long URL (online + local)",
+  version: "1.1.0",
+  description: "Shorten a long URL with optional custom code (online + local)",
   author: "Your Name",
   method: "get",
   category: "tools",
-  path: "/short?url="
+  path: "/short?url=&custom="
 };
 
 async function onStart({ req, res }) {
   await initTable();
 
-  const { url } = req.query;
+  const { url, custom } = req.query;
   if (!url) return res.json({ error: "Missing 'url' parameter." });
 
-  const shortcode = nanoid(6);
+  let shortcode = custom || nanoid(6);
+
+  // Check for duplicate custom shortcode
+  const existing = await pool.query("SELECT * FROM short_urls WHERE shortcode = $1", [shortcode]);
+  if (existing.rowCount > 0) {
+    return res.json({ error: "Shortcode already exists. Try another custom name." });
+  }
+
   const shortUrl = `${req.protocol}://${req.get("host")}/link/${shortcode}`;
 
   // Save to PostgreSQL
@@ -57,7 +62,7 @@ async function onStart({ req, res }) {
   );
 
   // Save to local JSON
-  saveToLocal(shortcode, url, shortUrl);
+  saveToLocal(shortcode, url);
 
   return res.json({
     original_url: url,
