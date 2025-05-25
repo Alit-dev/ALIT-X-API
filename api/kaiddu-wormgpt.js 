@@ -1,0 +1,35 @@
+const axios = require("axios");
+
+const meta = {
+  name: "Chatgtp-Warmgpt",
+  version: "1.0.0",
+  description: "Query WormGPT API and return only the reply text",
+  author: "Your Name",
+  method: "get",
+  category: "open-ai",
+  path: "/warmgpt?text="
+};
+
+async function onStart({ res, req }) {
+  try {
+    const { ask } = req.query;
+    if (!ask) {
+      return res.json({ error: "Please provide the 'ask' query parameter" });
+    }
+
+    // Call WormGPT API with the user query
+    const apiUrl = `https://wormgpt.hello-kaiiddo.workers.dev/ask?ask=${encodeURIComponent(ask)}`;
+    const apiRes = await axios.get(apiUrl);
+
+    // Extract the reply value from the API response
+    // Assuming response data is JSON and reply is in apiRes.data.reply
+    const reply = apiRes.data.reply || "No reply found";
+
+    // Return only the reply text
+    return res.json({ reply });
+  } catch (error) {
+    return res.json({ error: error.message || "An error occurred" });
+  }
+}
+
+module.exports = { meta, onStart };
