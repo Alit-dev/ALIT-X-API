@@ -122,6 +122,38 @@ app.get('/docs', (req, res) => {
 
 
 
+app.get('/link', (req, res) => {
+  res.sendFile(path.join(__dirname, 'web', 'link.html'));
+});
+
+app.get('/link/:link', (req, res) => {
+  const linkCode = req.params.link;
+  const jsonPath = path.join(__dirname, 'short-links.json');
+
+  fs.readFile(jsonPath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading short-links.json:', err.message);
+      return res.status(500).send('Server error');
+    }
+
+    let links;
+    try {
+      links = JSON.parse(data);
+    } catch (e) {
+      return res.status(500).send('Invalid JSON format');
+    }
+
+    const found = links[linkCode];
+    if (found && found.original_url) {
+      console.log(`Redirecting to: ${found.original_url}`);
+      return res.redirect(found.original_url);
+    } else {
+      console.log(`Not found: ${linkCode}`);
+      return res.status(404).send('Link not found');
+    }
+  });
+});
+
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'web', 'docs.html'));
