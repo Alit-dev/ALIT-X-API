@@ -30,12 +30,12 @@ function saveToLocal(shortcode, original_url) {
 }
 
 const meta = {
-  name: "short",
+  name: "Link-Short",
   version: "1.1.0",
   description: "Shorten a long URL with optional custom code (online + local)",
-  author: "Your Name",
+  author: "Alamin",
   method: "get",
-  category: "tools",
+  category: "tool",
   path: "/short?url=&custom="
 };
 
