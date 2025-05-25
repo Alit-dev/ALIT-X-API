@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-purple: #1a0033;
+            --purple: #4b0082;
+            --light-purple: #8a2be2;
+            --neon-purple: #e6e6fa;
+            --text-color: #e6e6fa;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-purple), #0a001a);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            position: relative;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+            opacity: 0;
+            text-shadow: 0 0 10px var(--neon-purple);
+            z-index: 10;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            max-width: 80%;
+            margin: 0 auto 2rem;
+            opacity: 0;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .link-checker {
+            background: rgba(74, 0, 130, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--light-purple);
+            border-radius: 12px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            margin-bottom: 2rem;
+        }
+
+        .link-checker h2 {
+            margin-top: 0;
+            color: var(--neon-purple);
+            font-size: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--light-purple);
+            border-radius: 8px 0 0 8px;
+            background: rgba(26, 0, 51, 0.7);
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 0 2px rgba(191, 64, 191, 0.3);
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #4b0082 ;
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #4b0082;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .result.valid {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            color: #00ff00;
+        }
+
+        .result.invalid {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff5555;
+        }
+
+        .home-btn {
+            padding: 12px 30px;
+            background: #4b0082;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.4);
+        }
+
+        .moon {
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f5f5f5, #d3d3d3);
+            border-radius: 50%;
+            box-shadow: 0 0 30px #f5f5f5;
+            z-index: 2;
+        }
+
+        .moon::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 20px;
+            height: 20px;
+            background: #1a0033;
+            border-radius: 50%;
+        }
+
+        .moon::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            right: 20px;
+            width: 10px;
+            height: 10px;
+            background: #1a0033;
+            border-radius: 50%;
+        }
+
+        svg {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+        }
+
+        @media (max-width: 768px) {
+            .link-checker {
+                padding: 1.5rem;
+                width: 85%;
+            }
+            
+            .moon {
+                width: 60px;
+                height: 60px;
+                top: 5%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="moon"></div>
+    
+    <h1>Lost in the Cosmos</h1>
+    <p>The page you're looking for has drifted into the void.</p>
+    
+    <div class="link-checker">
+        <h2>Check Link Destination</h2>
+        <div class="input-group">
+            <input type="text" id="linkCode" placeholder="Enter link code" autocomplete="off">
+            <button id="checkLink">Check</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+    
+    <button class="home-btn">Return to Safety</button>
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1226.887 908">
+        <g id="water">
+            <path id="leftWater" fill="#4b0082" d="M1226.887,908H1887V330.333c0,0-17.78-23.951-43.113-23.951s-50.667,32.724-144.667,32.724
+                s-99.333-32.724-177.333-32.724s-76.667,32.724-172,32.724s-166.77-31.173-218.174-31.173c-73.012,0-73.012,33.725-146.023,33.725
+                c-73.008,0-73.008-33.725-146.012-33.725c-73.011,0-73.011,33.725-146.019,33.725c-73.005,0-73.005-33.725-146.003-33.725
+                c-73.006,0-73.006,33.725-146.016,33.725c-73.008,0-73.008-33.725-146.012-33.725c-73.001,0-73.001,33.725-146.005,33.725
+                c-57.429,0-71.001-22.575-109.622-30.845c0,0-0.113-4.957-45.113-4.385s-83,24.505-129,26.572s-64.812-6.149-116.033-9.751
+                c-49.875-3.507-64.967-15.889-134.967-16.821s-237,55.572-237,55.572l2,547H0L1226.887,908z"/>
+            <path id="rightWater" opacity="0.7" fill="#8a2be2" d="M1887,908V607.943V307.886c-27.059,3.017-42.916,10.22-60.79,16.67
+                s-37.766,12.146-72.893,12.146c-40.485,0-60.728-7.568-80.971-15.138c-20.243-7.568-40.486-15.137-80.973-15.137
+                c-40.483,0-60.725,7.568-80.968,15.137c-20.242,7.569-40.485,15.138-80.971,15.138c-40.484,0-60.726-7.568-80.967-15.138
+                c-20.241-7.568-40.482-15.137-80.963-15.137c-40.486,0-60.729,7.568-80.971,15.137c-20.243,7.569-40.485,15.138-80.97,15.138
+                c-40.486,0-60.729-7.568-80.972-15.138c-20.242-7.568-40.483-15.137-80.967-15.137c-40.482,0-60.724,7.568-80.966,15.137
+                c-20.242,7.569-40.483,15.138-80.968,15.138c-31.848,0-72.604-26.805-121.579-27.69s-54.279,6.633-78.847,11.038
+                c-44.312,7.945-66.016,18.911-103.266,19.056s-83.045-30.716-137.045-29.648S228.299,337,185.887,337
+                c-42,0-106.792-29.067-158.5-29.067c-32.333,0-109,31.173-188,31.173s-75-32.724-158.5-32.724s-92.5,32.724-184.5,32.724
+                s-158.5-32.724-158.5-32.724l1.984,604.087L660.113,909l613.444-1H1887z"/>
+        </g>
+        
+        <!-- Floating space objects -->
+        <circle cx="150" cy="150" r="5" fill="#bf40bf" opacity="0.8">
+            <animate attributeName="cx" values="150;170;150;130;150" dur="15s" repeatCount="indefinite" />
+            <animate attributeName="cy" values="150;130;150;170;150" dur="12s" repeatCount="indefinite" />
+        </circle>
+        
+        <circle cx="300" cy="250" r="3" fill="#ffffff" opacity="0.6">
+            <animate attributeName="cx" values="300;320;300;280;300" dur="20s" repeatCount="indefinite" />
+            <animate attributeName="cy" values="250;230;250;270;250" dur="18s" repeatCount="indefinite" />
+        </circle>
+        
+        <circle cx="500" cy="100" r="4" fill="#00ffff" opacity="0.7">
+            <animate attributeName="cx" values="500;520;500;480;500" dur="25s" repeatCount="indefinite" />
+            <animate attributeName="cy" values="100;80;100;120;100" dur="22s" repeatCount="indefinite" />
+        </circle>
+    </svg>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create stars
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 200; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.width = `${Math.random() * 3}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.setProperty('--duration', `${5 + Math.random() * 10}s`);
+                starsContainer.appendChild(star);
+            }
+
+            // Text animations
+            gsap.to('h1', {
+                duration: 1.5,
+                opacity: 1,
+                y: 0,
+                ease: "power3.out"
+            });
+            
+            gsap.to('p', {
+                duration: 1.5,
+                opacity: 1,
+                y: 0,
+                delay: 0.3,
+                ease: "power3.out"
+            });
+            
+            gsap.to('.link-checker', {
+                duration: 1,
+                opacity: 1,
+                y: 0,
+                delay: 0.6,
+                ease: "power3.out"
+            });
+            
+            gsap.to('.home-btn', {
+                duration: 1,
+                opacity: 1,
+                y: 0,
+                delay: 0.9,
+                ease: "back.out(1.7)"
+            });
+            
+            // Water wave animations
+            gsap.to('#leftWater', {
+                duration: 8,
+                x: "+=30",
+                y: "+=10",
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+            
+            gsap.to('#rightWater', {
+                duration: 7,
+                x: "-=20",
+                y: "+=15",
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                delay: 0.5
+            });
+            
+            // Moon animation
+            gsap.to('.moon', {
+                duration: 15,
+                x: "+=10",
+                y: "+=5",
+                rotation: "+=5",
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+            
+            // Button click event
+            document.querySelector('.home-btn').addEventListener('click', function() {
+                window.location.href = '/';
+            });
+            
+            // Link checker functionality
+            const linkCodeInput = document.getElementById('linkCode');
+            const checkLinkBtn = document.getElementById('checkLink');
+            const resultDiv = document.getElementById('result');
+            
+            function checkLink() {
+                const linkCode = linkCodeInput.value.trim();
+                if (!linkCode) {
+                    showResult('Please enter a link code', false);
+                    return;
+                }
+                
+                // Simulate checking if link exists
+                // In a real implementation, you would make an API call here
+                const isValid = Math.random() > 0.5; // Simulate 50% chance of valid link
+                
+                if (isValid) {
+                    const fullUrl = `${linkCode}`;
+                    showResult(`Valid link: <a href="${fullUrl}" style="color: #00ff00;">${fullUrl}</a>`, true);
+                } else {
+                    showResult('No destination found for this link code', false);
+                }
+            }
+            
+            function showResult(message, isValid) {
+                resultDiv.innerHTML = message;
+                resultDiv.className = 'result ' + (isValid ? 'valid' : 'invalid');
+                resultDiv.style.display = 'block';
+                
+                // Animate result appearance
+                gsap.from(resultDiv, {
+                    duration: 0.5,
+                    opacity: 0,
+                    y: 20,
+                    ease: "power2.out"
+                });
+            }
+            
+            checkLinkBtn.addEventListener('click', checkLink);
+            
+            linkCodeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkLink();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
