@@ -1,12 +1,12 @@
 const axios = require("axios");
 
 const meta = {
-  name: "Chat-gpt-warmgpt",
+  name: "Openai-warmgpt",
   version: "1.0.0",
   description: "Query WormGPT API and return only the reply text",
   author: "alamin",
   method: "get",
-  category: "chat-gpt",
+  category: "open-ai",
   path: "/warmgpt?prompt="
 };
 
