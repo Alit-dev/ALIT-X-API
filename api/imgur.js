@@ -12,12 +12,12 @@ const axios = require("axios");
 const FormData = require("form-data");
 
 async function onStart({ req, res }) {
-  const { image } = req.query;
+  const { url } = req.query;
 
   if (!image) {
     return res.status(400).json({
       status: false,
-      error: "Image (base64) parameter is required"
+      error: "url (base64) parameter is required"
     });
   }
 
