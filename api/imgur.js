@@ -1,41 +1,61 @@
 const meta = {
-    name: "imgur",
-    version: "1.0.0",
-    description: "Uploads an image to Imgur from the provided URL",
-    author: "Alit",
-    method: "get",
-    category: "tool",
-    path: "/imgur?url="
-  };
-  
-  async function onStart({ res, req }) {
-    const { url } = req.query;
-  
-    if (!url) {
-      return res.status(400).json({ error: "url is required" });
-    }
-  
-    const axios = require("axios");
-    const clientID = "bfd5d5cb7b4cde3";
-  
-    try {
-      const response = await axios.post(
-        "https://api.imgur.com/3/image",
-        { image: url },
-        { headers: { Authorization: `Client-ID ${clientID}` } }
-      );
-  
-      return res.json({
-        author: "Alit",
-        data: response.data,
-      });
-    } catch (error) {
-      return res.status(500).json({
-        error: "Upload failed",
-        details: error.message,
-      });
-    }
+  name: "imgdb",
+  version: "1.0.0",
+  description: "Uploads a base64 image to imgbb and returns the URL",
+  author: "Your Name",
+  method: "get",
+  category: "tool",
+  path: "/imgdb?url="
+};
+
+const axios = require("axios");
+const FormData = require("form-data");
+
+async function onStart({ req, res }) {
+  const { image } = req.query;
+
+  if (!image) {
+    return res.status(400).json({
+      status: false,
+      error: "Image (base64) parameter is required"
+    });
   }
-  
-  module.exports = { meta, onStart };
-  
+
+  try {
+    const form = new FormData();
+    form.append("image", image);
+
+    const response = await axios.post(
+      "https://api.imgbb.com/1/upload?expiration=600&key=19cbf5add8d504ff8adb2a77613bcf7f",
+      form,
+      { headers: form.getHeaders() }
+    );
+
+    const data = response.data;
+
+    if (data && data.success) {
+      return res.json({
+        status: true,
+        url: data.data.url,
+        size: data.data.size,
+        delete_url: data.data.delete_url,
+        uploaded_at: data.data.timestamp
+      });
+    } else {
+      return res.status(500).json({
+        status: false,
+        error: "Failed to upload image",
+        response: data
+      });
+    }
+
+  } catch (err) {
+    return res.status(500).json({
+      status: false,
+      error: "Upload failed",
+      details: err.message
+    });
+  }
+}
+
+module.exports = { meta, onStart };
