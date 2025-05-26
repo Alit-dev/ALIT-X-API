@@ -25,17 +25,17 @@ function saveToLocal(shortcode, original_url) {
   if (fs.existsSync(localFilePath)) {
     data = JSON.parse(fs.readFileSync(localFilePath, "utf-8"));
   }
-  data[shortcode] = { original_url };
+  data[shortcode] = original_url;
   fs.writeFileSync(localFilePath, JSON.stringify(data, null, 2));
 }
 
 const meta = {
-  name: "Link-Short",
+  name: "short",
   version: "1.1.0",
   description: "Shorten a long URL with optional custom code (online + local)",
-  author: "Alamin",
+  author: "Your Name",
   method: "get",
-  category: "tool",
+  category: "tools",
   path: "/short?url=&custom="
 };
 
@@ -67,7 +67,7 @@ async function onStart({ req, res }) {
   return res.json({
     original_url: url,
     short_url: shortUrl,
-    powered_by: "Alit API"
+    powered_by: "Wataru API"
   });
 }
 
