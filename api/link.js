@@ -66,8 +66,8 @@ async function onStart({ req, res }) {
 
   return res.json({
     original_url: url,
-    short_url: shortUrl,
-    powered_by: "Wataru API"
+    short_url: shortUrl
+    
   });
 }
 
