@@ -153,7 +153,7 @@ app.get('/api/info', (req, res) => {
 });
 
 // Serve index.html for the root route
-app.get('/', (req, res) => {
+app.get('/docs', (req, res) => {
   res.sendFile(path.join(__dirname, 'web', 'portal.html'));
 });
 // ... আগের সব কোড ঠিক রাখবেন
@@ -330,7 +330,7 @@ app.get('/link/:link', (req, res) => {
 });
 
 
-app.get('/docs', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'web', 'docs.html'));
 });
 
