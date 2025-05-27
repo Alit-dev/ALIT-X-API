@@ -30,12 +30,12 @@ function saveToLocal(shortcode, original_url) {
 }
 
 const meta = {
-  name: "Link-Short",
+  name: "link",
   version: "1.1.0",
   description: "Shorten a long URL with optional custom code (online + local)",
   author: "Your Name",
   method: "get",
-  category: "tool",
+  category: "tools",
   path: "/short?url=&custom="
 };
 
@@ -67,7 +67,6 @@ async function onStart({ req, res }) {
   return res.json({
     original_url: url,
     short_url: shortUrl
-    
   });
 }
 
