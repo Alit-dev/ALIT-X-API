@@ -101,7 +101,7 @@ app.use('/api', (req, res, next) => {
   // Skip tracking for /api/info and /api/count
   if (routePath === '/api/info' || 
     routePath === '/api/count' || 
-    routePath === '/api/randomqa' || 
+    routePath === '/api/random-q' || 
     routePath === '/api/sarachat' || 
     routePath === '/api/sikho') {
   return next();
