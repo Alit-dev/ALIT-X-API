@@ -99,11 +99,12 @@ app.use('/api', (req, res, next) => {
   const endpointKey = `${method.toUpperCase()} ${routePath}`;
 
   // Skip tracking for /api/info and /api/count
-  if (routePath === '/api/info' || 
+if (routePath === '/api/info' || 
     routePath === '/api/count' || 
     routePath === '/api/random-q' || 
     routePath === '/api/sarachat' || 
-    routePath === '/api/sikho') {
+    routePath === '/api/sikho' ||
+    routePath === '/api/sara-ans') {
   return next();
 }
 
