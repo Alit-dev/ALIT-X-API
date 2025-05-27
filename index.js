@@ -415,12 +415,12 @@ app.get('/upload/:filename', (req, res) => {
   });
 });
 
-app.get('/', (req, res) => {
+app.get('/docs', (req, res) => {
   res.sendFile(path.join(__dirname, 'web', 'portal.html'));
 });
 
-app.get('/docs', (req, res) => {
-  res.sendFile(path.join(__dirname, 'web', 'docs.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'web', 'new.html'));
 });
 
 // 404 error handler
