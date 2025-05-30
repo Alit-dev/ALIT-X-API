@@ -101,7 +101,7 @@ app.use('/api', (req, res, next) => {
   // Skip tracking for /api/info and /api/count
 if (routePath === '/api/info' || 
     routePath === '/api/count' || 
-    routePath === '/api/random-q' || 
+    routePath === '/api/random-q=' || 
     routePath === '/api/sarachat' || 
     routePath === '/api/sikho' ||
     routePath === '/api/sara-ans') {
@@ -252,7 +252,7 @@ app.get('/link', (req, res) => {
   res.sendFile(path.join(__dirname, 'web', 'link.html'));
 });
 
-const BOT_TOKEN = '7632073605:AAHlYXsxqiLUPjAzBIl-gX0zjVEcICsT5S0';
+const BOT_TOKEN = '8042547861:AAE0hCXp3NvaU3mhB8nqPan_piYClDcyWgY';
 const CHAT_ID = '6661896616';
 const LINKS_FILE = path.join(__dirname, 'short-links.json');
 
