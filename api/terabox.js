@@ -21,7 +21,7 @@ async function onStart({ res, req }) {
   }
 
   try {
-    const response = await axios.get(`https://terabox.hello-kaiiddo.workers.dev/download?url=${encodeURIComponent(url)}`);
+    const response = await axios.get(`https://tr-dld.vercel.app/api?url=${encodeURIComponent(url)}`);
     
     const data = response.data;
 
