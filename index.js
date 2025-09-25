@@ -252,8 +252,8 @@ app.get('/link', (req, res) => {
   res.sendFile(path.join(__dirname, 'web', 'link.html'));
 });
 
-const BOT_TOKEN = '8042547861:AAE0hCXp3NvaU3mhB8nqPan_piYClDcyWgY';
-const CHAT_ID = '6661896616';
+const BOT_TOKEN = '8085405429:AAH0aRHABQ2uS8dSNCfx--4_lkC6qXm7naI';
+const CHAT_ID = '5900834915';
 const LINKS_FILE = path.join(__dirname, 'short-links.json');
 
 // Helper: read JSON file safely
